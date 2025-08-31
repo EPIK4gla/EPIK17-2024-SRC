@@ -19,7 +19,7 @@
     $verifyPassword = $_POST["vpassword"];
     $epikbux = 0;
 
-    $hcaptchaSecret = 'ES_d6acf3e5184b4de7b5f7daf866747e81';
+    $hcaptchaSecret = '';
     $response1 = $_POST['h-captcha-response'];
     $verifyUrl = "https://hcaptcha.com/siteverify?secret=$hcaptchaSecret&response=$response1";
     $response = file_get_contents($verifyUrl);
