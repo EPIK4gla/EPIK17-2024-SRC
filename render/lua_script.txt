@@ -1,0 +1,46 @@
+function start(placeid, port, baseurl)
+    game:GetService("ContentProvider"):SetBaseUrl(baseurl)
+    game:GetService("ScriptContext").ScriptsDisabled = true
+    local plr = game.Players:CreateLocalPlayer(2)
+    plr.CharacterAppearance = ""
+    plr:LoadCharacter()
+    local chr = plr.Character
+    chr:WaitForChild("HumanoidRootPart").Transparency = 1
+    chr.Head.Transparency = 1
+    chr.Torso.Transparency = 1
+    chr["Left Leg"].Transparency = 1
+    chr["Right Leg"].Transparency = 1
+    chr["Left Arm"].Transparency = 1
+    chr["Right Arm"].Transparency = 1
+
+    -- Add hat with specific ID and URL
+    local hatId = 97151794 -- Replace with the actual hat ID from the Roblox catalog
+    local hatUrl = "http://www.roblox.com/asset/?id=" .. hatId
+    local hat = Instance.new("Accessory")
+    hat.Name = "RandomHat"
+    hat.AttachmentForward = Vector3.new(0, 0, -1)
+    hat.AttachmentPos = Vector3.new(0, 1.5, 0) -- Adjust the position as needed
+    hat.Parent = chr:FindFirstChild("Head")
+    local handle = Instance.new("Part")
+    handle.Name = "Handle"
+    handle.Transparency = 1
+    handle.CanCollide = false
+    handle.Size = Vector3.new(1, 1, 1)
+    handle.CFrame = CFrame.new(chr:FindFirstChild("Head").Position + Vector3.new(0, 1.5, 0)) -- Adjust the position as needed
+    handle.Parent = hat
+    local mesh = Instance.new("SpecialMesh")
+    mesh.MeshType = Enum.MeshType.FileMesh
+    mesh.MeshId = hatUrl
+    mesh.Parent = handle
+
+    -- Adjust camera properties
+    local camera = game.Workspace.CurrentCamera
+    camera.CameraSubject = chr.Humanoid
+    camera.Focus = chr.HumanoidRootPart.CFrame
+    camera.CFrame = CFrame.new(chr.HumanoidRootPart.Position + Vector3.new(0, 2, -6), chr.HumanoidRootPart.Position)
+
+    local thumbnailGenerator = game:GetService("ThumbnailGenerator")
+    local b64 = thumbnailGenerator:Click("PNG", 420, 420, true)
+
+    return "data:image/png;base64," .. b64
+end
